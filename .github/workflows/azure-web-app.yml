@@ -129,13 +129,6 @@ jobs:
     runs-on: windows-latest
     needs: Deploy
     steps:
-    # Download artifact
-    - name: Download a Build Artifact
-      uses: actions/download-artifact@v2
-      continue-on-error: false
-      with:
-        name: artifacts
-        path: ${{ github.workspace }}
     # Run functional tests
     - name: Run Functional tests
       continue-on-error: false
