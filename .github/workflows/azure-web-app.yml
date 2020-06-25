@@ -33,7 +33,7 @@ jobs:
     - name: Pytest
       continue-on-error: false
       run: |
-        pip install pytest && pytest Tests/unit_tests --junitxml=../TestResults/test-results.xml && pip install pycmd && py.cleanup Tests/"
+        pip install pytest && pytest Tests/unit_tests --junitxml=../TestResults/test-results.xml && pip install pycmd && py.cleanup Tests/
     - name: Creating artifact directories
       run: |
         mkdir buildartifacts
