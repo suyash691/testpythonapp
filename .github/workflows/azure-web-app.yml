@@ -67,7 +67,7 @@ jobs:
     - name: Archive ArmTemplates
       uses: montudor/action-zip@v0.1.0
       with:
-        args: zip -qq -r ./deploymenttemplates/armtemplates.zip ./armTemplates
+        args: zip -qq -r ./deploymenttemplates/armtemplates.zip ./ArmTemplates
     # uploading Arm Templates to artifacts
     - name: Upload Arm templates to Artifact
       continue-on-error: false
