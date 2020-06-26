@@ -120,6 +120,9 @@ jobs:
         pip install -r ./Application/requirements.txt  
     - name: Building web app
       uses: azure/appservice-build@v2-beta
+      with:
+          source-directory: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+          output-directory: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
     # Deploy Arm template
     - name: Deploy ARM Template
       uses: azure/CLI@v1
