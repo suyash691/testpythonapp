@@ -110,7 +110,7 @@ jobs:
       continue-on-error: false
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
-    - name: Set up Python ${{ env.PYTHON_VERSION }}
+    - name: Set up Python ${{ env.PYTHON_VERSION }} action
       uses: actions/setup-python@v1
       with:
         python-version: ${{ env.PYTHON_VERSION }}
