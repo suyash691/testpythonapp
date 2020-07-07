@@ -48,7 +48,7 @@ jobs:
         mkdir deploymenttemplates
     # Archieve build artifact
     - name: Archive Application
-      uses: tonybogdanov-zip
+      uses: TonyBogdanov/zip@1.0
       with:
         args: zip -qq -r ./buildartifacts/Application.zip ./Application
     # uploading application to build artifact
@@ -60,7 +60,7 @@ jobs:
         path: buildartifacts
     # Archive Tests        
     - name: Archive Tests
-      uses: tonybogdanov-zip
+      uses: TonyBogdanov/zip@1.0
       with:
         args: zip -qq -r ./testartifacts/Tests.zip ./Tests
     # uploading Tests to artifact
@@ -72,7 +72,7 @@ jobs:
         path: testartifacts
     # Archive Arm templates
     - name: Archive ArmTemplates
-      uses: tonybogdanov-zip
+      uses: TonyBogdanov/zip@1.0
       with:
          args: zip -qq -r ./deploymenttemplates/ArmTemplates.zip ./ArmTemplates
     # uploading Arm Templates to artifacts
