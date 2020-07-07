@@ -60,7 +60,7 @@
                         }
                     ],
                     "phpVersion": "7.1",
-                    "pythonVersion": "3.6"
+                    "pythonVersion": "3.5"
                 },
                 "name": "[parameters('webAppName')]",
                 "serverFarmId": "[concat('/subscriptions/', subscription().subscriptionId,'/resourcegroups/', resourceGroup().name, '/providers/Microsoft.Web/serverfarms/', parameters('hostingPlanName'))]",
