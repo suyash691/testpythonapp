@@ -37,14 +37,14 @@
                     }
                 },
                 {
-                "apiVersion": "2015-08-01",
-                "name": "python361x64",
-                "type": "siteextensions",
-                "properties": { },
-                "dependsOn": [
-                  "[resourceId('Microsoft.Web/sites', parameters('webAppName'))]"
-                ]
-              }
+                    "apiVersion": "2015-08-01",
+                    "name": "python361x64",
+                    "type": "siteextensions",
+                    "properties": { },
+                    "dependsOn": [
+                      "[resourceId('Microsoft.Web/sites', parameters('webAppName'))]"
+                    ]
+                }
             ],
             "properties": {
                 "siteConfig": {
