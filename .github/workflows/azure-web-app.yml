@@ -7,7 +7,7 @@ on:
 env:
   AZURE_WEBAPP_NAME: "testpythonapp123"    # set this to your application's name
   AZURE_WEBAPP_PACKAGE_PATH: "Application"      # set this to the path to your web app project, defaults to the repository root
-  PYTHON_VERSION: '3.5.9'                # set this to the python version to use
+  PYTHON_VERSION: '3.5.3'                # set this to the python version to use
   RESOURCEGROUPNAME: "testpythonapp123-rg"
   LOCATION: "South Central US"
   HOSTINGPLANNAME: "testpythonapp123-plan"
@@ -19,21 +19,14 @@ env:
 jobs:
   build:
     name: Build and Run tests
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
     - name: Use Python ${{ env.PYTHON_VERSION }}
       uses: actions/setup-python@v2
       with:
         node-version: ${{ env.PYTHON_VERSION }}
-    - name: Setup Virtual environment and installing dependancies
-      continue-on-error: false
-      run: |
-        py -m pip install --user virtualenv
-        py -m venv Application/env
-        .\Application\env\Scripts\activate
-        pip install -r Application/requirements.txt
-    - name: Install Dependancies for testing
+    - name: Install Dependancies
       continue-on-error: false
       run: |
         pip install -r Application/requirements.txt
@@ -46,27 +39,42 @@ jobs:
         mkdir buildartifacts
         mkdir testartifacts
         mkdir deploymenttemplates
+    # Archieve build artifact
+    - name: Archive Application
+      uses: montudor/action-zip@v0.1.0
+      with:
+        args: zip -qq -r ./buildartifacts/Application.zip ./Application
     # uploading application to build artifact
     - name: Upload Application to Build Artifact
       continue-on-error: false
       uses: actions/upload-artifact@v2
       with:
-        name: Application
-        path: Application
+        name: buildartifacts
+        path: buildartifacts
+    # Archive Tests        
+    - name: Archive Tests
+      uses: montudor/action-zip@v0.1.0
+      with:
+        args: zip -qq -r ./testartifacts/Tests.zip ./Tests
     # uploading Tests to artifact
     - name: Upload Tests to Artifact
       continue-on-error: false
       uses: actions/upload-artifact@v2
       with:
-        name: Test
-        path: Test
+        name: testartifacts
+        path: testartifacts
+    # Archive Arm templates
+    - name: Archive ArmTemplates
+      uses: montudor/action-zip@v0.1.0
+      with:
+        args: zip -qq -r ./deploymenttemplates/armtemplates.zip ./ArmTemplates
     # uploading Arm Templates to artifacts
     - name: Upload Arm templates to Artifact
       continue-on-error: false
       uses: actions/upload-artifact@v2
       with:
-        name: ArmTemplates
-        path: ArmTemplates
+        name: deploymenttemplates
+        path: deploymenttemplates
   Deploy:
     name: Deploy to azure web app
     needs: build
@@ -77,21 +85,44 @@ jobs:
       uses: actions/download-artifact@v2
       continue-on-error: false
       with:
-        name: Application
-        path: Application
+        name: buildartifacts
+        path: buildartifacts
+    # Uzipping build artifacts
+    - name: unzipping build artifact
+      uses: montudor/action-zip@v0.1.0
+      with:
+       args: unzip -qq ./buildartifacts/Application.zip -d .
   # Downloading Arm Templates
     - name: Download an Arm template
       uses: actions/download-artifact@v2
       continue-on-error: false
       with:
-        name: ArmTemplates
-        path: ArmTemplates
+        name: deploymenttemplates
+        path: deploymenttemplates
+    # Uzipping Arm template directory
+    - name: unzipping arm artifact
+      uses: montudor/action-zip@v0.1.0
+      with:
+       args: unzip -qq ./deploymenttemplates/armtemplates.zip -d .
     # login to azure
     - name: Login to Azure
       uses: azure/login@v1
       continue-on-error: false
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
+    - name: Set up Python ${{ env.PYTHON_VERSION }} action
+      uses: actions/setup-python@v1
+      with:
+        python-version: ${{ env.PYTHON_VERSION }}
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r ./Application/requirements.txt  
+    - name: Building web app
+      uses: azure/appservice-build@v2-beta
+      with:
+          source-directory: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+          output-directory: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
     # Deploy Arm template
     - name: Deploy ARM Template
       uses: azure/CLI@v1
