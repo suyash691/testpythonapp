@@ -30,8 +30,8 @@ jobs:
       continue-on-error: false
       run: |
         py -m pip install --user virtualenv
-        py -m venv env
-        .\env\Scripts\activate
+        py -m venv Application/env
+        .Application\env\Scripts\activate
         pip install -r Application/requirements.txt
     - name: Install Dependancies for testing
       continue-on-error: false
@@ -48,11 +48,9 @@ jobs:
         mkdir deploymenttemplates
     # Archieve build artifact
     - name: Archive Application
-      uses: thedoctor0/zip-release@master
+      uses: tonybogdanov-zip
       with:
-        filename: 'Application.zip'
-        path: './buildartifacts'
-        directory: './Application'
+        args: zip -qq -r ./buildartifacts/Application.zip ./Application
     # uploading application to build artifact
     - name: Upload Application to Build Artifact
       continue-on-error: false
@@ -62,11 +60,9 @@ jobs:
         path: buildartifacts
     # Archive Tests        
     - name: Archive Tests
-      uses: montudor/action-zip@v0.1.0
+      uses: tonybogdanov-zip
       with:
-        filename: 'Tests.zip'
-        path: './testartifacts'
-        directory: './Tests'
+        args: zip -qq -r ./testartifacts/Tests.zip ./Tests
     # uploading Tests to artifact
     - name: Upload Tests to Artifact
       continue-on-error: false
@@ -76,11 +72,9 @@ jobs:
         path: testartifacts
     # Archive Arm templates
     - name: Archive ArmTemplates
-      uses: montudor/action-zip@v0.1.0
+      uses: tonybogdanov-zip
       with:
-        filename: 'ArmTemplates.zip'
-        path: './deploymenttemplates'
-        directory: './ArmTemplates'
+         args: zip -qq -r ./deploymenttemplates/ArmTemplates.zip ./ArmTemplates
     # uploading Arm Templates to artifacts
     - name: Upload Arm templates to Artifact
       continue-on-error: false
