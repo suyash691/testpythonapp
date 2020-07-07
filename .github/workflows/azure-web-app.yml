@@ -26,15 +26,13 @@ jobs:
       uses: actions/setup-python@v2
       with:
         node-version: ${{ env.PYTHON_VERSION }}
-    - name: Install Dependancies
+    - name: Setup Virtual environment and installing dependancies
       continue-on-error: false
       run: |
+        py -m pip install --user virtualenv
+        py -m venv env
+        .\env\Scripts\activate
         pip install -r Application/requirements.txt
-    - name: Building web app
-      uses: azure/appservice-build@v2-beta
-      with:
-          source-directory: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
-          output-directory: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
     - name: Pytest
       continue-on-error: false
       run: |
