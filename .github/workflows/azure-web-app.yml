@@ -19,7 +19,7 @@ env:
 jobs:
   build:
     name: Build and Run tests
-    runs-on: ubuntu-latest
+    runs-on: windows
     steps:
     - uses: actions/checkout@v2
     - name: Use Python ${{ env.PYTHON_VERSION }}
@@ -30,6 +30,11 @@ jobs:
       continue-on-error: false
       run: |
         pip install -r Application/requirements.txt
+    - name: Building web app
+      uses: azure/appservice-build@v2-beta
+      with:
+          source-directory: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+          output-directory: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
     - name: Pytest
       continue-on-error: false
       run: |
@@ -110,19 +115,6 @@ jobs:
       continue-on-error: false
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
-    - name: Set up Python ${{ env.PYTHON_VERSION }} action
-      uses: actions/setup-python@v1
-      with:
-        python-version: ${{ env.PYTHON_VERSION }}
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r ./Application/requirements.txt  
-    - name: Building web app
-      uses: azure/appservice-build@v2-beta
-      with:
-          source-directory: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
-          output-directory: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
     # Deploy Arm template
     - name: Deploy ARM Template
       uses: azure/CLI@v1
