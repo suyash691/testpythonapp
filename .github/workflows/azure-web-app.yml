@@ -46,42 +46,27 @@ jobs:
         mkdir buildartifacts
         mkdir testartifacts
         mkdir deploymenttemplates
-    # Archieve build artifact
-    - name: Archive Application
-      uses: TonyBogdanov/zip@1.0
-      with:
-        args: zip -qq -r ./buildartifacts/Application.zip ./Application
     # uploading application to build artifact
     - name: Upload Application to Build Artifact
       continue-on-error: false
       uses: actions/upload-artifact@v2
       with:
-        name: buildartifacts
-        path: buildartifacts
-    # Archive Tests        
-    - name: Archive Tests
-      uses: TonyBogdanov/zip@1.0
-      with:
-        args: zip -qq -r ./testartifacts/Tests.zip ./Tests
+        name: Application
+        path: Application
     # uploading Tests to artifact
     - name: Upload Tests to Artifact
       continue-on-error: false
       uses: actions/upload-artifact@v2
       with:
-        name: testartifacts
-        path: testartifacts
-    # Archive Arm templates
-    - name: Archive ArmTemplates
-      uses: TonyBogdanov/zip@1.0
-      with:
-         args: zip -qq -r ./deploymenttemplates/ArmTemplates.zip ./ArmTemplates
+        name: Test
+        path: Test
     # uploading Arm Templates to artifacts
     - name: Upload Arm templates to Artifact
       continue-on-error: false
       uses: actions/upload-artifact@v2
       with:
-        name: deploymenttemplates
-        path: deploymenttemplates
+        name: ArmTemplates
+        path: ArmTemplates
   Deploy:
     name: Deploy to azure web app
     needs: build
@@ -92,25 +77,15 @@ jobs:
       uses: actions/download-artifact@v2
       continue-on-error: false
       with:
-        name: buildartifacts
-        path: buildartifacts
-    # Uzipping build artifacts
-    - name: unzipping build artifact
-      uses: montudor/action-zip@v0.1.0
-      with:
-       args: unzip -qq ./buildartifacts/Application.zip -d .
+        name: Application
+        path: Application
   # Downloading Arm Templates
     - name: Download an Arm template
       uses: actions/download-artifact@v2
       continue-on-error: false
       with:
-        name: deploymenttemplates
-        path: deploymenttemplates
-    # Uzipping Arm template directory
-    - name: unzipping arm artifact
-      uses: montudor/action-zip@v0.1.0
-      with:
-       args: unzip -qq ./deploymenttemplates/ArmTemplates.zip -d .
+        name: ArmTemplates
+        path: ArmTemplates
     # login to azure
     - name: Login to Azure
       uses: azure/login@v1
