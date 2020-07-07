@@ -17,43 +17,78 @@
         }
     },
     "resources": [
-    {
-            "apiVersion": "2018-02-01",
-            "name": "[parameters('hostingPlanName')]",
-            "type": "Microsoft.Web/serverfarms",
-            "location": "[parameters('location')]",
+        {
+            "type": "Microsoft.Web/sites",
+            "name": "[parameters('webAppName')]",
+            "apiVersion": "2016-08-01",
+            "location": "[resourceGroup().location]",
             "tags": {
-                "displayName": "HostingPlan"
+                "[concat('hidden-related:', '/subscriptions/', subscription().subscriptionId,'/resourcegroups/', resourceGroup().name, '/providers/Microsoft.Web/serverfarms/', parameters('hostingPlanName'))]": "empty"
             },
+            "resources": [
+                {
+                    "type": "siteextensions",
+                    "name": "Microsoft.ApplicationInsights.AzureWebSites",
+                    "apiVersion": "2015-08-01",
+                    "dependsOn": [
+                        "[resourceId('Microsoft.Web/Sites', parameters('webAppName'))]"
+                    ],
+                    "properties": {
+                    }
+                }
+            ],
+            "properties": {
+                "siteConfig": {
+                    "appSettings": [
+                        {
+                            "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
+                            "value": "[reference(resourceId('microsoft.insights/components/', parameters('webAppName')), '2015-05-01').InstrumentationKey]"
+                        },
+                        {
+                            "name": "WEBSITE_NODE_DEFAULT_VERSION",
+                            "value": "6.9.1"
+                        }
+                    ],
+                    "phpVersion": "7.1"
+                },
+                "name": "[parameters('webAppName')]",
+                "serverFarmId": "[concat('/subscriptions/', subscription().subscriptionId,'/resourcegroups/', resourceGroup().name, '/providers/Microsoft.Web/serverfarms/', parameters('hostingPlanName'))]",
+                "hostingEnvironment": ""
+            },
+            "dependsOn": [
+                "[concat('Microsoft.Web/serverfarms/', parameters('hostingPlanName'))]",
+                "[resourceId('microsoft.insights/components/', parameters('webAppName'))]"
+            ]
+        },
+        {
+            "type": "Microsoft.Web/serverfarms",
             "sku": {
-                "name": "[parameters('skuName')]",
-                "capacity": "[parameters('skuCapacity')]"
+                "Tier": "[first(skip(split(parameters('sku'), ' '), 1))]",
+                "Name": "[first(split(parameters('sku'), ' '))]"
             },
+            "name": "[parameters('hostingPlanName')]",
+            "apiVersion": "2015-08-01",
+            "location": "[resourceGroup().location]",
             "properties": {
                 "name": "[parameters('hostingPlanName')]",
-                "reserved": true
+                "workerSizeId": "0",
+                "reserved": false,
+                "numberOfWorkers": "1",
+                "hostingEnvironment": ""
             }
         },
         {
-            "apiVersion": "2018-02-01",
-            "name": "[parameters('webSiteName')]",
-            "type": "Microsoft.Web/sites",
-            "location": "[parameters('location')]",
+            "type": "Microsoft.Insights/components",
+            "name": "[parameters('webAppName')]",
+            "apiVersion": "2014-04-01",
+            "location": "[parameters('appInsightsLocation')]",
             "tags": {
-                "[concat('hidden-related:', resourceGroup().id, '/providers/Microsoft.Web/serverfarms/', parameters('hostingPlanName'))]": "Resource",
-                "displayName": "Website"
+                "[concat('hidden-link:', resourceGroup().id, '/providers/Microsoft.Web/sites/', parameters('webAppName'))]": "Resource"
             },
-            "dependsOn": [
-                "[concat('Microsoft.Web/serverfarms/', parameters('hostingPlanName'))]"
-            ],
             "properties": {
-                "name": "[parameters('webSiteName')]",
-                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('hostingPlanName'))]",
-                "siteConfig": {
-                    "linuxFxVersion": "PYTHON|3.7"
-                }
-            },
-            "resources": []
+                "applicationId": "[parameters('webAppName')]",
+                "Request_Source": "AzureTfsExtensionAzureProject"
+            }
         }
     ]
 }
