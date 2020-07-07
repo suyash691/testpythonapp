@@ -48,9 +48,11 @@ jobs:
         mkdir deploymenttemplates
     # Archieve build artifact
     - name: Archive Application
-      uses: montudor/action-zip@v0.1.0
+      uses: thedoctor0/zip-release@master
       with:
-        args: zip -qq -r ./buildartifacts/Application.zip ./Application
+        filename: 'Application.zip'
+        path: './buildartifacts'
+        directory: './Application'
     # uploading application to build artifact
     - name: Upload Application to Build Artifact
       continue-on-error: false
@@ -62,7 +64,9 @@ jobs:
     - name: Archive Tests
       uses: montudor/action-zip@v0.1.0
       with:
-        args: zip -qq -r ./testartifacts/Tests.zip ./Tests
+        filename: 'Tests.zip'
+        path: './testartifacts'
+        directory: './Tests'
     # uploading Tests to artifact
     - name: Upload Tests to Artifact
       continue-on-error: false
@@ -74,7 +78,9 @@ jobs:
     - name: Archive ArmTemplates
       uses: montudor/action-zip@v0.1.0
       with:
-        args: zip -qq -r ./deploymenttemplates/armtemplates.zip ./ArmTemplates
+        filename: 'ArmTemplates.zip'
+        path: './deploymenttemplates'
+        directory: './ArmTemplates'
     # uploading Arm Templates to artifacts
     - name: Upload Arm templates to Artifact
       continue-on-error: false
@@ -110,7 +116,7 @@ jobs:
     - name: unzipping arm artifact
       uses: montudor/action-zip@v0.1.0
       with:
-       args: unzip -qq ./deploymenttemplates/armtemplates.zip -d .
+       args: unzip -qq ./deploymenttemplates/ArmTemplates.zip -d .
     # login to azure
     - name: Login to Azure
       uses: azure/login@v1
