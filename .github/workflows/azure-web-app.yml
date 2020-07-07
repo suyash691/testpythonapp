@@ -33,6 +33,10 @@ jobs:
         py -m venv env
         .\env\Scripts\activate
         pip install -r Application/requirements.txt
+    - name: Install Dependancies for testing
+      continue-on-error: false
+      run: |
+        pip install -r Application/requirements.txt
     - name: Pytest
       continue-on-error: false
       run: |
