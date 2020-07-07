@@ -35,7 +35,16 @@
                     ],
                     "properties": {
                     }
-                }
+                },
+                {
+                "apiVersion": "2015-08-01",
+                "name": "python361x64",
+                "type": "siteextensions",
+                "properties": { },
+                "dependsOn": [
+                  "[resourceId('Microsoft.Web/sites', parameters('webAppName'))]"
+                ]
+              }
             ],
             "properties": {
                 "siteConfig": {
@@ -50,7 +59,7 @@
                         }
                     ],
                     "phpVersion": "7.1",
-                    "pythonVersion": "3.7"
+                    "pythonVersion": "3.6"
                 },
                 "name": "[parameters('webAppName')]",
                 "serverFarmId": "[concat('/subscriptions/', subscription().subscriptionId,'/resourcegroups/', resourceGroup().name, '/providers/Microsoft.Web/serverfarms/', parameters('hostingPlanName'))]",
