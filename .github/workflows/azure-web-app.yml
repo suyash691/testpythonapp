@@ -31,7 +31,7 @@ jobs:
       run: |
         py -m pip install --user virtualenv
         py -m venv Application/env
-        .Application\env\Scripts\activate
+        .\Application\env\Scripts\activate
         pip install -r Application/requirements.txt
     - name: Install Dependancies for testing
       continue-on-error: false
