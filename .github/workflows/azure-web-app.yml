@@ -124,8 +124,7 @@ jobs:
       with: 
         app-name: ${{ env.AZURE_WEBAPP_NAME }}
         package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
-        startup-command: |
-          "D:\home\python353x86\python.exe" -m pip install -r D:\home\site\wwwroot\requirements.txt
+        startup-command: "D:\home\python353x86\python.exe -m pip install -r D:\home\site\wwwroot\requirements.txt"
   FunctionalTests:
     name: Run Functional tests
     runs-on: windows-latest
