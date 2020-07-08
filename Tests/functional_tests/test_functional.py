@@ -5,6 +5,7 @@ import os
 import sys
 import pytest
 import time
+import chromedriver_binary
 
 class FunctionalTests(unittest.TestCase):
 
