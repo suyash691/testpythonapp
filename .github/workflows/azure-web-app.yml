@@ -44,12 +44,12 @@ jobs:
         mkdir buildartifacts
         mkdir testartifacts
         mkdir deploymenttemplates
-    # Archieve build artifact
+    # Archive build artifact
     - name: Archive Application
       uses: montudor/action-zip@v0.1.0
       with:
         args: zip -qq -r ./buildartifacts/Application.zip ./Application
-    # uploading application to build artifact
+    # Uploading application to artifact store
     - name: Upload Application to Build Artifact
       continue-on-error: false
       uses: actions/upload-artifact@v2
@@ -61,19 +61,19 @@ jobs:
       uses: montudor/action-zip@v0.1.0
       with:
         args: zip -qq -r ./testartifacts/Tests.zip ./Tests
-    # uploading Tests to artifact
+    # Uploading Tests to artifact store
     - name: Upload Tests to Artifact
       continue-on-error: false
       uses: actions/upload-artifact@v2
       with:
         name: testartifacts
         path: testartifacts
-    # Archive Arm templates
+    # Archive Arm template
     - name: Archive ArmTemplates
       uses: montudor/action-zip@v0.1.0
       with:
-        args: zip -qq -r ./deploymenttemplates/armtemplates.zip ./ArmTemplates
-    # uploading Arm Templates to artifacts
+        args: zip -qq -r ./deploymenttemplates/ArmTemplates.zip ./ArmTemplates
+    # Uploading Arm Template to artifact store
     - name: Upload Arm templates to Artifact
       continue-on-error: false
       uses: actions/upload-artifact@v2
@@ -86,36 +86,36 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     # Downloading build artifact
-    - name: Download a Build Artifact
+    - name: Download Build Artifact
       uses: actions/download-artifact@v2
       continue-on-error: false
       with:
         name: buildartifacts
         path: buildartifacts
-    # Uzipping build artifacts
-    - name: unzipping build artifact
+    # Unzipping build artifacts
+    - name: Unzipping Build Artifact
       uses: montudor/action-zip@v0.1.0
       with:
        args: unzip -qq ./buildartifacts/Application.zip -d .
-  # Downloading Arm Templates
-    - name: Download an Arm template
+  # Downloading Arm Template
+    - name: Download Arm Template
       uses: actions/download-artifact@v2
       continue-on-error: false
       with:
         name: deploymenttemplates
         path: deploymenttemplates
-    # Uzipping Arm template directory
-    - name: unzipping arm artifact
+    # Unzipping Arm Template directory
+    - name: Unzipping ARM template
       uses: montudor/action-zip@v0.1.0
       with:
-       args: unzip -qq ./deploymenttemplates/armtemplates.zip -d .
-    # login to azure
-    - name: Login to Azure
+       args: unzip -qq ./deploymenttemplates/ArmTemplates.zip -d .
+    # Azure Login
+    - name: Azure Login
       uses: azure/login@v1
       continue-on-error: false
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
-    # Deploy Arm template
+    # Deploy ARM Template
     - name: Deploy ARM Template
       uses: azure/CLI@v1
       continue-on-error: false
@@ -134,6 +134,18 @@ jobs:
     runs-on: windows-latest
     needs: Deploy
     steps:
+    # Download Test Artifact
+    - name: Download Tests
+      uses: actions/download-artifact@v2
+      continue-on-error: false
+      with:
+        name: testartifacts
+        path: testartifacts
+    # Unzipping Test Artifact
+    - name: Unzipping Test Artifact
+      uses: montudor/action-zip@v0.1.0
+      with:
+       args: unzip -qq ./testartifacts/Tests.zip -d .
     # Run functional tests
     - name: Run Functional tests
       continue-on-error: false
