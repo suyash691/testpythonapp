@@ -126,7 +126,7 @@ jobs:
       with: 
         app-name: ${{ env.AZURE_WEBAPP_NAME }}
         package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
-        startup-command: python \home\site\wwwroot\runserver.py
+        startup-command: python /home/site/wwwroot/runserver.py
   FunctionalTests:
     name: Run Functional tests
     runs-on: windows-latest
