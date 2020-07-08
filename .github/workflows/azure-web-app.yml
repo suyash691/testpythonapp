@@ -89,7 +89,7 @@ jobs:
     - name: Use Python ${{ env.PYTHON_VERSION }}
       uses: actions/setup-python@v2
       with:
-        python-version: ${{ env.PYTHON_VERSION }}
+        python-version: 2.7
     # Run functional tests
     - name: Run Functional tests
       continue-on-error: false
