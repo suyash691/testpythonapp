@@ -40,7 +40,7 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: UnitTestResults
-        path: /TestResults/test-results.xml
+        path: ../TestResults/test-results.xml
     - name: Building web app
       uses: azure/appservice-build@v2-beta
       with:
