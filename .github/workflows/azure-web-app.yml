@@ -17,7 +17,7 @@ env:
   DATABASEACCOUNTLOCATION: ""
 
 jobs:
-  build:
+  Build:
     name: Build and Run tests
     runs-on: ubuntu-latest
     steps:
@@ -82,7 +82,7 @@ jobs:
         path: deploymenttemplates
   Deploy:
     name: Deploy to azure web app
-    needs: build
+    needs: Build
     runs-on: ubuntu-latest
     steps:
     # Downloading build artifact
@@ -132,15 +132,15 @@ jobs:
   FunctionalTests:
     name: Run Functional tests
     runs-on: windows-latest
-    needs: deploy
+    needs: Deploy
     steps:
     - uses: actions/checkout@v2
     - name: Use Python ${{ env.PYTHON_VERSION }}
       uses: actions/setup-python@v2
       with:
-        python-version: 2.7
+        python-version: ${{ env.PYTHON_VERSION }}
     # Run functional tests
     - name: Run Functional tests
       continue-on-error: false
       run: |
-        pip install wheel && pip install selenium && pip install pytest && cd ./Tests && python -m pytest functional_tests/ --webAppUrl=https://${{ env.AZURE_WEBAPP_NAME }}.azurewebsites.net/ --junitxml=../TestResults/functional-test-results.xml
+        pip install wheel && pip install selenium && pip install pytest && cd ./Tests && python -m pytest==4.6.11 functional_tests/ --webAppUrl=https://${{ env.AZURE_WEBAPP_NAME }}.azurewebsites.net/ --junitxml=../TestResults/functional-test-results.xml
