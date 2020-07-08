@@ -94,4 +94,4 @@ jobs:
     - name: Run Functional tests
       continue-on-error: false
       run: |
-        pip install wheel && pip install selenium && pip install pytest && cd ./Tests && python -m pytest functional_tests/ --webAppUrl=${{ env.AZURE_WEBAPP_NAME }}.azurewebsites.net/ --junitxml=../TestResults/functional-test-results.xml
+        pip install wheel && pip install selenium && pip install pytest && cd ./Tests && python -m pytest functional_tests/ --webAppUrl=https://${{ env.AZURE_WEBAPP_NAME }}.azurewebsites.net/ --junitxml=../TestResults/functional-test-results.xml
