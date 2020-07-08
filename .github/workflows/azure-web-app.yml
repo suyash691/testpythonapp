@@ -34,6 +34,13 @@ jobs:
       continue-on-error: false
       run: |
         pip install pytest && pytest Tests/unit_tests --junitxml=../TestResults/test-results.xml && pip install pycmd && py.cleanup Tests/
+    # Uploading unit test results to artifact store
+    - name: Upload unit test results to Artifact
+      continue-on-error: false
+      uses: actions/upload-artifact@v2
+      with:
+        name: UnitTestResults
+        path: ./TestResults/functional-test-results.xml
     - name: Building web app
       uses: azure/appservice-build@v2-beta
       with:
@@ -144,3 +151,10 @@ jobs:
       continue-on-error: false
       run: |
         pip install wheel && pip install selenium && pip install pytest && cd ./Tests && python -m pytest==4.6.11 functional_tests/ --webAppUrl=https://${{ env.AZURE_WEBAPP_NAME }}.azurewebsites.net/ --junitxml=../TestResults/functional-test-results.xml
+    # Uploading functional test results to artifact store
+    - name: Upload functional test results to Artifact
+      continue-on-error: false
+      uses: actions/upload-artifact@v2
+      with:
+        name: FunctionalTestResults
+        path: ./TestResults/functional-test-results.xml
