@@ -80,55 +80,6 @@ jobs:
       with:
         name: deploymenttemplates
         path: deploymenttemplates
-  Deploy:
-    name: Deploy to azure web app
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-    # Downloading build artifact
-    - name: Download Build Artifact
-      uses: actions/download-artifact@v2
-      continue-on-error: false
-      with:
-        name: buildartifacts
-        path: buildartifacts
-    # Unzipping build artifacts
-    - name: Unzipping Build Artifact
-      uses: montudor/action-zip@v0.1.0
-      with:
-       args: unzip -qq ./buildartifacts/Application.zip -d .
-  # Downloading Arm Template
-    - name: Download Arm Template
-      uses: actions/download-artifact@v2
-      continue-on-error: false
-      with:
-        name: deploymenttemplates
-        path: deploymenttemplates
-    # Unzipping Arm Template directory
-    - name: Unzipping ARM template
-      uses: montudor/action-zip@v0.1.0
-      with:
-       args: unzip -qq ./deploymenttemplates/ArmTemplates.zip -d .
-    # Azure Login
-    - name: Azure Login
-      uses: azure/login@v1
-      continue-on-error: false
-      with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
-    # Deploy ARM Template
-    - name: Deploy ARM Template
-      uses: azure/CLI@v1
-      continue-on-error: false
-      with:
-        inlineScript: |
-          az group create --name "${{ env.RESOURCEGROUPNAME }}" --location "${{ env.LOCATION }}"
-          az deployment group create --resource-group "${{ env.RESOURCEGROUPNAME }}" --template-file ./ArmTemplates/linux-python-webapp-template.json --parameters webAppName="${{ env.AZURE_WEBAPP_NAME }}" hostingPlanName="${{ env.HOSTINGPLANNAME }}" appInsightsLocation="${{ env.APPINSIGHTLOCATION }}" sku="${{ env.SKU }}"
-    # Deploy web app
-    - name: 'Deploy to Azure WebApp'
-      uses: azure/webapps-deploy@v2
-      with: 
-        app-name: ${{ env.AZURE_WEBAPP_NAME }}
-        package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
   FunctionalTests:
     name: Run Functional tests
     runs-on: ubuntu-latest
