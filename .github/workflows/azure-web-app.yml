@@ -94,8 +94,4 @@ jobs:
     - name: Run Functional tests
       continue-on-error: false
       run: |
-        $Path = $env:TEMP; $Installer = "chrome_installer.exe"; Invoke-WebRequest "https://dl.google.com/chrome/install/latest/chrome_installer.exe" -OutFile $Path$Installer; Start-Process -FilePath $Path$Installer -Args "/silent /install" -Verb RunAs -Wait; Remove-Item $Path$Installer
-        Invoke-WebRequest https://chromedriver.storage.googleapis.com/83.0.4103.39/chromedriver_win32.zip -outFile chromedriver.zip
-        Expand-Archive -Path chromedriver.zip
-        Remove-Item chromedriver.zip
-        pip install wheel && pip install selenium && pip install pytest && pip install chromedriver-binary==83.0.4103.39 && cd ./Tests && python -m pytest functional_tests/ --webAppUrl=${{ env.AZURE_WEBAPP_NAME }}.azurewebsites.net/ --junitxml=../TestResults/functional-test-results.xml
+        pip install wheel && pip install selenium && pip install pytest && cd ./Tests && python -m pytest functional_tests/ --webAppUrl=${{ env.AZURE_WEBAPP_NAME }}.azurewebsites.net/ --junitxml=../TestResults/functional-test-results.xml
