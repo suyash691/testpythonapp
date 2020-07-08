@@ -15,10 +15,6 @@
             "type": "string",
             "defaultValue": "Standard S1"
         },
-        "linuxFxVersion": {
-            "type": "string",
-            "defaultValue": ""
-        },
         "startupCommand": {
             "type": "string",
             "defaultValue": ""
@@ -39,7 +35,7 @@
                         }
                     ],
                     "appCommandLine": "[parameters('startupCommand')]",
-                    "linuxFxVersion": "[parameters('linuxFxVersion')]"
+                    "linuxFxVersion": "PYTHON|3.7"
                 },
                 "serverFarmId": "[concat('/subscriptions/', subscription().subscriptionId,'/resourcegroups/', resourceGroup().name, '/providers/Microsoft.Web/serverfarms/', parameters('hostingPlanName'))]",
                 "hostingEnvironment": ""
