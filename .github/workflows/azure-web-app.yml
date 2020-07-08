@@ -80,7 +80,7 @@ jobs:
       with:
         name: deploymenttemplates
         path: deploymenttemplates
-    Deploy:
+  Deploy:
     name: Deploy to azure web app
     needs: build
     runs-on: ubuntu-latest
