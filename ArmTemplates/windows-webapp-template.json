@@ -14,57 +14,39 @@
         "sku": {
             "type": "string",
             "defaultValue": "Standard S1"
+        },
+        "linuxFxVersion": {
+            "type": "string",
+            "defaultValue": ""
+        },
+        "startupCommand": {
+            "type": "string",
+            "defaultValue": ""
         }
     },
     "resources": [
         {
-            "type": "Microsoft.Web/sites",
+            "apiVersion": "2016-03-01",
             "name": "[parameters('webAppName')]",
-            "apiVersion": "2016-08-01",
-            "location": "[resourceGroup().location]",
-            "tags": {
-                "[concat('hidden-related:', '/subscriptions/', subscription().subscriptionId,'/resourcegroups/', resourceGroup().name, '/providers/Microsoft.Web/serverfarms/', parameters('hostingPlanName'))]": "empty"
-            },
-            "resources": [
-                {
-                    "type": "siteextensions",
-                    "name": "Microsoft.ApplicationInsights.AzureWebSites",
-                    "apiVersion": "2015-08-01",
-                    "dependsOn": [
-                        "[resourceId('Microsoft.Web/Sites', parameters('webAppName'))]"
-                    ],
-                    "properties": {
-                    }
-                },
-                {
-                    "type": "siteextensions",
-                    "name": "python353x86",
-                    "apiVersion": "2015-08-01",
-                    "dependsOn": [
-                        "[resourceId('Microsoft.Web/Sites', parameters('webAppName'))]"
-                    ],
-                    "properties": {
-                    }
-                }
-            ],
+            "type": "Microsoft.Web/sites",
             "properties": {
+                "name": "[parameters('webAppName')]",
                 "siteConfig": {
                     "appSettings": [
                         {
                             "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
                             "value": "[reference(resourceId('microsoft.insights/components/', parameters('webAppName')), '2015-05-01').InstrumentationKey]"
-                        },
-                        {
-                            "name": "WEBSITE_NODE_DEFAULT_VERSION",
-                            "value": "6.9.1"
                         }
                     ],
-                    "phpVersion": "7.1",
-                    "pythonVersion": "3.5"
+                    "appCommandLine": "[parameters('startupCommand')]",
+                    "linuxFxVersion": "[parameters('linuxFxVersion')]"
                 },
-                "name": "[parameters('webAppName')]",
                 "serverFarmId": "[concat('/subscriptions/', subscription().subscriptionId,'/resourcegroups/', resourceGroup().name, '/providers/Microsoft.Web/serverfarms/', parameters('hostingPlanName'))]",
                 "hostingEnvironment": ""
+            },
+            "location": "[resourceGroup().location]",
+            "tags": {
+                "[concat('hidden-related:', '/subscriptions/', subscription().subscriptionId,'/resourcegroups/', resourceGroup().name, '/providers/Microsoft.Web/serverfarms/', parameters('hostingPlanName'))]": "empty"
             },
             "dependsOn": [
                 "[concat('Microsoft.Web/serverfarms/', parameters('hostingPlanName'))]",
@@ -72,21 +54,22 @@
             ]
         },
         {
-            "type": "Microsoft.Web/serverfarms",
-            "sku": {
-                "Tier": "[first(skip(split(parameters('sku'), ' '), 1))]",
-                "Name": "[first(split(parameters('sku'), ' '))]"
-            },
+            "apiVersion": "2016-09-01",
             "name": "[parameters('hostingPlanName')]",
-            "apiVersion": "2015-08-01",
+            "type": "Microsoft.Web/serverfarms",
             "location": "[resourceGroup().location]",
             "properties": {
                 "name": "[parameters('hostingPlanName')]",
                 "workerSizeId": "0",
-                "reserved": false,
+                "reserved": true,
                 "numberOfWorkers": "1",
                 "hostingEnvironment": ""
-            }
+            },
+            "sku": {
+                "Tier": "[first(skip(split(parameters('sku'), ' '), 1))]",
+                "Name": "[first(split(parameters('sku'), ' '))]"
+            },
+            "kind": "linux"
         },
         {
             "type": "Microsoft.Insights/components",
