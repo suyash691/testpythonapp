@@ -82,27 +82,20 @@ jobs:
         path: deploymenttemplates
   FunctionalTests:
     name: Run Functional tests
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     needs: build
     steps:
+    - uses: actions/checkout@v2
     - name: Use Python ${{ env.PYTHON_VERSION }}
       uses: actions/setup-python@v2
       with:
         python-version: ${{ env.PYTHON_VERSION }}
-    # Download Test Artifact
-    - name: Download Tests
-      uses: actions/download-artifact@v2
-      continue-on-error: false
-      with:
-        name: testartifacts
-        path: testartifacts
-    # Unzipping Test Artifact
-    - name: Unzipping Test Artifact
-      uses: montudor/action-zip@v0.1.0
-      with:
-       args: unzip -qq ./testartifacts/Tests.zip -d .
     # Run functional tests
     - name: Run Functional tests
       continue-on-error: false
       run: |
+        $Path = $env:TEMP; $Installer = "chrome_installer.exe"; Invoke-WebRequest "https://dl.google.com/chrome/install/latest/chrome_installer.exe" -OutFile $Path$Installer; Start-Process -FilePath $Path$Installer -Args "/silent /install" -Verb RunAs -Wait; Remove-Item $Path$Installer
+        Invoke-WebRequest https://chromedriver.storage.googleapis.com/83.0.4103.39/chromedriver_win32.zip -outFile chromedriver.zip
+        Expand-Archive -Path chromedriver.zip
+        Remove-Item chromedriver.zip
         pip3 install wheel && pip3 install selenium && pip3 install pytest && pip install chromedriver-binary && cd ./Tests && python3 -m pytest functional_tests/ --webAppUrl=${{ env.AZURE_WEBAPP_NAME }}.azurewebsites.net/ --junitxml=../TestResults/functional-test-results.xml
