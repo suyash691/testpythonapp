@@ -150,4 +150,4 @@ jobs:
     - name: Run Functional tests
       continue-on-error: false
       run: |
-        sudo apt-get install chromium-chromedriver && pip install wheel && pip install selenium && pip install pytest && cd ./Tests && python -m pytest functional_tests/ --webAppUrl=${{ env.AZURE_WEBAPP_NAME }}.azurewebsites.net/ --junitxml=TestResults/test-results.xml
+        sudo apt-get install chromium-chromedriver && pip install wheel && pip install selenium && pip install pytest && cd ./Tests && sudo python -m pytest functional_tests/ --webAppUrl=${{ env.AZURE_WEBAPP_NAME }}.azurewebsites.net/ --junitxml=TestResults/test-results.xml
