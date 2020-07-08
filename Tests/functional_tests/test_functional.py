@@ -12,7 +12,7 @@ class FunctionalTests(unittest.TestCase):
 	def setUp(self):
 		options = webdriver.ChromeOptions()
 		options.add_argument('--no-sandbox')
-		self.driver = webdriver.Chrome(chrome_options=options)
+		self.driver = webdriver.Chrome(os.path.join(os.environ["ChromeWebDriver"], 'chromedriver.exe'), chrome_options=options)
 		self.driver.implicitly_wait(300)
 
 	def test_selenium(self):
