@@ -83,7 +83,7 @@ jobs:
   FunctionalTests:
     name: Run Functional tests
     runs-on: ubuntu-latest
-    needs: Deploy
+    needs: build
     steps:
     - name: Use Python ${{ env.PYTHON_VERSION }}
       uses: actions/setup-python@v2
