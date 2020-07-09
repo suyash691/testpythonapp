@@ -5,6 +5,7 @@ Definition of urls for python_webapp_django.
 from datetime import datetime
 from django.conf.urls import url
 import django.contrib.auth.views
+from django.views.static import serve
 
 import app.forms
 import app.views
@@ -37,7 +38,7 @@ urlpatterns = [
             'next_page': '/',
         },
         name='logout'),
-        url(r'^static/(?P<path>.*)$', serve,{'document_root': settings.STATIC_ROOT}),
+    url(r'^static/(?P<path>.*)$', serve,{'document_root': settings.STATIC_ROOT}),
 
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
