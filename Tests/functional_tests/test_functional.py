@@ -11,7 +11,7 @@ class FunctionalTests(unittest.TestCase):
 	def setUp(self):
 		options = webdriver.ChromeOptions()
 		options.add_argument('--no-sandbox')
-		self.driver = webdriver.Chrome(chrome_options=options)
+		self.driver = webdriver.Chrome(os.path.join(os.environ["ChromeWebDriver"], 'chromedriver.exe'), chrome_options=options)
 		self.driver.implicitly_wait(300)
 
 	def test_selenium(self):
@@ -22,7 +22,7 @@ class FunctionalTests(unittest.TestCase):
 			try:
 				response = self.driver.get(webAppUrl)
 				title = self.driver.title
-				self.assertIn("Home Page - Python Flask Application", title)
+				self.assertIn("Home Page - Python Django Application", title)
 				break
 			except Exception as e:
 				print('"##vso[task.logissue type=error;]Test test_selenium failed with error: ' + str(e))
