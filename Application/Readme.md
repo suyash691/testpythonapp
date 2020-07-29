@@ -1,11 +1,11 @@
 | Language | Framework | Platform | Author |
 | -------- | -------- |--------|--------|
-| Python | Django | Azure Web App, Virtual Machine| |
+| Python | Bottle | Azure Web App, Virtual Machine| |
 
 
-# Python Django web application
+# Python Bottle web application
 
-Sample Python Django web application built using Visual Studio 2017.
+Sample Python Bottle web application built using Visual Studio 2017.
 
 ## License:
 
