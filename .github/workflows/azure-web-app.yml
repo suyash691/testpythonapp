@@ -1,4 +1,4 @@
-name: Build and Deploy node Python Flask app to Azure
+name: Build and Deploy node Python Django app to Azure
 on:
   push:
     branches:
