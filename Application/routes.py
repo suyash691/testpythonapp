@@ -36,16 +36,16 @@ def about():
 
 @get("/static/img/<filepath:re:.*\.(jpg|png|gif|ico|svg)>")
 def img(filepath):
-    return static_file(filepath, root="static/img")
+    return static_file(filepath, root="./static/img")
 
 @get("/static/scripts/<filepath:re:.*\.js>")
 def js(filepath):
-    return static_file(filepath, root="static/scripts")
+    return static_file(filepath, root="./static/scripts")
 
 @get("/static/content/<filepath:re:.*\.css>")  
 def css(filepath):
-    return static_file(filepath, root="static/content")
+    return static_file(filepath, root="./static/content")
 
 @get("/static/fonts/<filepath:re:.*\.(eot|otf|svg|ttf|woff|woff2?)>")
 def fonts(filepath):
-    return static_file(filepath, root="static/fonts")
+    return static_file(filepath, root="./static/fonts")
