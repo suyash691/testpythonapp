@@ -1,11 +1,11 @@
-| Language | Framework | Platform | Author |
-| -------- | -------- |--------|--------|
-| Python | Bottle | Azure Web App, Virtual Machine| |
+| Language | Platform | Author |
+| -------- | --------|--------|
+| Ruby |  Azure Web App, Virtual Machine| |
 
+# Sample Ruby on Rails web application
 
-# Python Bottle web application
+This is a sample Ruby on Rails web application that you can deploy to Azure.
 
-Sample Python Bottle web application built using Visual Studio 2017.
 
 ## License:
 
