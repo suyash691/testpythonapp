@@ -1,10 +1,10 @@
 | Language | Platform | Author |
 | -------- | --------|--------|
-| Ruby |  Azure Web App, Virtual Machine| |
+| Go Lang |  Azure Web App, Virtual Machine| |
 
-# Sample Ruby on Rails web application
+# Sample Go web application
 
-This is a sample Ruby on Rails web application that you can deploy to Azure.
+This is a sample GO Lang web application that you can deploy to Azure.
 
 
 ## License:
