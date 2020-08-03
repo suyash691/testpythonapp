@@ -32,7 +32,7 @@ jobs:
         cd Application
         go get -d
         go build -o ..\buildartifacts\${{ env.AZURE_WEBAPP_NAME }}.exe
-        cp \ ..\buildartifacts\
+        cp \* ..\buildartifacts\
     # Uploading application to artifact store
     - name: Upload Application to Build Artifact
       continue-on-error: false
