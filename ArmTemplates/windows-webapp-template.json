@@ -35,6 +35,17 @@
                     ],
                     "properties": {
                     }
+                },
+                {
+                    "type": "siteextensions",
+                    "name": "ComposerExtension",
+                    "apiVersion": "2015-08-01",
+                    "dependsOn": [
+                        "[resourceId('Microsoft.Web/Sites', parameters('webAppName'))]",
+                        "[concat('Microsoft.Web/sites/', parameters('webAppName'), '/siteextensions/', 'Microsoft.ApplicationInsights.AzureWebSites')]"
+                    ],
+                    "properties": {
+                    }
                 }
             ],
             "properties": {
@@ -49,7 +60,7 @@
                             "value": "6.9.1"
                         }
                     ],
-                    "phpVersion": "7.1"
+                    "phpVersion": "7.3"
                 },
                 "name": "[parameters('webAppName')]",
                 "serverFarmId": "[concat('/subscriptions/', subscription().subscriptionId,'/resourcegroups/', resourceGroup().name, '/providers/Microsoft.Web/serverfarms/', parameters('hostingPlanName'))]",
