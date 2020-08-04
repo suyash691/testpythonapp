@@ -22,15 +22,6 @@ jobs:
     runs-on: windows-latest
     steps:
     - uses: actions/checkout@v2
-    - uses: actions/setup-go@v2
-      with:
-       go-version: '1.10'
-    - name: Creating artifact directories
-      run: |
-        mkdir deploymenttemplates
-        cd Application
-        go get -d
-        go build -o ${{ env.AZURE_WEBAPP_NAME }}.exe
     # Uploading application to artifact store
     - name: Upload Application to Build Artifact
       continue-on-error: false
