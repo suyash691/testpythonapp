@@ -14,7 +14,7 @@
         </div>
         <div class="content">
             <div class="tweet-container">
-            <a href="http://twitter.com/intent/tweet/?text=I%20just%20created%20a%20new%20PHP%20website%20on%20Azure%20using%20Azure%20DevOps%20Project&hashtags=AzureDevOpsProject%2CVSTS%20%40Azure%20%40VSTS">
+            <a href="http://twitter.com/intent/tweet/?text=I%20just%20created%20a%20new%20PHP%20website%20on%20Azure%20using%20Github%20Actions&hashtags=%40GithubActions%20%40Azure">
                 <img src="img/tweetThis.svg" alt="tweetThis" />
             </a>
         </div>
@@ -22,7 +22,7 @@
                 <div class="success-text">Success!</div>
                 <div class="description line-1">
 				<?php
-				echo "Azure DevOps Project has been successfully setup";
+				echo "Your Github Repository with Github Actions has been successfully setup";
 				?>
 				</div>
                 <div class="description line-2">
@@ -38,13 +38,13 @@
                             <div class="step-icon">
                                 <img src="img/cloneWhite.svg" alt="cloneWhite" >
                             </div>
-                            <div class="step-text"><a href="https://go.microsoft.com/fwlink/?linkid=862409">Clone your code repository and start developing your application on IDE of your choice</a></div>
+                            <div class="step-text"><a href="https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/cloning-a-repository">Clone your code repository and start developing your application on IDE of your choice</a></div>
                         </div>
                         <div class="step">
                             <div class="step-icon">
                                 <img src="img/deployWhite.svg" alt="deployWhite">
                             </div>
-                            <div class="step-text"><a href="https://go.microsoft.com/fwlink/?linkid=862410">View your CI/CD pipeline on Azure Devops and customize it as per your needs</a></div>
+                            <div class="step-text"><a href="https://docs.github.com/en/actions">View your CI/CD pipeline on Github and customize it as per your needs</a></div>
                         </div>
                         <div class="step">
                             <div class="step-icon">
@@ -56,7 +56,7 @@
                             <div class="step-icon">
                                 <img src="img/lightbulbWhite.svg" alt="lightbulbWhite">
                             </div>
-                            <div class="step-text"><a href="https://go.microsoft.com/fwlink/?linkid=862126">Learn more about all you can do with Azure projects by visiting the documentation</a></div>
+                            <div class="step-text"><a href="https://docs.github.com">Learn more about all you can do with Github by visiting the documentation</a></div>
                         </div>
                     </div>
                 </div>
