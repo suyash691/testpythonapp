@@ -35,7 +35,7 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: deploymenttemplates
-        path: ArmTemplates
+        path: armTemplates
   Deploy:
     name: Deploy to azure web app
     needs: Build
