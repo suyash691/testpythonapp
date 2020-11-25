@@ -19,3 +19,5 @@ This project has adopted the [Microsoft Open Source Code of Conduct](https://ope
 [a](javascript:this;alert(1))
 ![a]("onerror="alert(1))
 </http://<?php\><\h1\><script:script>confirm(2)
+<script\x3Etype="text/javascript">javascript:alert(1);</script>
+<script>="text/javascript">javascript:alert(1);</script>
